@@ -25,24 +25,22 @@ public class AuthRestApi {
 	
 	@Autowired
 	private AppUserDetailService userDetailsService;
-	
+	                                                                                                                                                                                          
 	@Autowired
 	private JwtUtil jwtUtil;
 	
 	@PostMapping()
-	public ResponseEntity<?> auth(@RequestBody AuthRequest authRequest) throws Exception {
+	public RestResponse<?> auth(@RequestBody AuthRequest authRequest) {
 		try {
 			authManager.authenticate(
 					new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
 		} catch (BadCredentialsException e) {
-			throw new Exception("Incorrect username or passowrd", e);
+			return RestResponseFactory.getFail("bad credentials");
 		}
 		
 		final UserDetails userDetails = userDetailsService.loadUserByUsername(authRequest.getUsername());
 		
-		final String jtw = jwtUtil.generateToken(userDetails);
-		
-		return ResponseEntity.ok(new AuthResponse(jtw));
-
+		final String jwt = jwtUtil.generateToken(userDetails);
+		return RestResponseFactory.getSuccess(new AuthResponse(jwt));
 	}
 }
