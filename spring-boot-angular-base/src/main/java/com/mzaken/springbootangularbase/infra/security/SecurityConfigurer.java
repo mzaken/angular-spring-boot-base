@@ -32,7 +32,10 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userDetailService);
+		auth.inMemoryAuthentication()
+			.withUser("root")
+			.password("root")
+			.roles(AppRoleEnum.ADMIN.getAuthority());
 	}
 
 	@Bean
@@ -63,6 +66,7 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 
+	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 		return NoOpPasswordEncoder.getInstance();

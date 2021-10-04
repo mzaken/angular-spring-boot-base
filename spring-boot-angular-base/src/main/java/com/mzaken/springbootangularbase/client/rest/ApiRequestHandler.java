@@ -6,7 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.mzaken.springbootangularbase.db.user.UserService;
-import com.mzaken.springbootangularbase.security.exception.NotPermittedApiException;
+import com.mzaken.springbootangularbase.infra.security.AppRoleEnum;
+import com.mzaken.springbootangularbase.infra.security.exception.NotPermittedApiException;
 
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package com.mzaken.springbootangularbase.security.exception;
+package com.mzaken.springbootangularbase.infra.security.exception;
 
 public class NotPermittedApiException extends Exception {
 

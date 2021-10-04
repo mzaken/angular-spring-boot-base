@@ -4,8 +4,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import com.mzaken.springbootangularbase.client.rest.AppRoleEnum;
-import com.mzaken.springbootangularbase.security.exception.NotPermittedApiException;
+import com.mzaken.springbootangularbase.infra.security.AppRoleEnum;
+import com.mzaken.springbootangularbase.infra.security.exception.NotPermittedApiException;
 
 @Service
 public class UserService {

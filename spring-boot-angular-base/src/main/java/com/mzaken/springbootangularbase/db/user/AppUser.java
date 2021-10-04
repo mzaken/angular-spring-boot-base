@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.mzaken.springbootangularbase.client.rest.AppRoleEnum;
+import com.mzaken.springbootangularbase.infra.security.AppRoleEnum;
 
 import lombok.Data;
 
