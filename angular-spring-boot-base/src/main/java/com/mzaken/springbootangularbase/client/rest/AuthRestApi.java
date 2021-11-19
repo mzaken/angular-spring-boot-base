@@ -17,7 +17,7 @@ import com.mzaken.springbootangularbase.infra.security.service.AppUserDetailServ
 import com.mzaken.springbootangularbase.infra.security.util.JwtUtil;
 
 @RestController
-@RequestMapping(value = Endpoints.AUTH)
+@RequestMapping(value = Endpoints.LOGIN)
 public class AuthRestApi {
 
 	@Autowired

@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -32,10 +33,11 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication()
-			.withUser("root")
-			.password("root")
-			.roles(AppRoleEnum.ADMIN.getAuthority());
+		/*
+		 * auth.inMemoryAuthentication() .withUser("root") .password("root")
+		 * .roles(AppRoleEnum.ADMIN.getAuthority());
+		 */
+		auth.authenticationProvider(appAuthProvider());
 	}
 
 	@Bean
@@ -50,7 +52,8 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	    .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
-        .authorizeRequests().antMatchers("/auth", "/*").permitAll()
+        .authorizeRequests()
+        .antMatchers("/index.html", "/", "/home", "/login").permitAll()
         .anyRequest().authenticated();
 
 	    http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
@@ -68,10 +71,16 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 		return source;
 	}
 
-	@SuppressWarnings("deprecation")
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		return NoOpPasswordEncoder.getInstance();
+		return new BCryptPasswordEncoder();
 	}
 
+	@Bean 
+	public AppAuthenticationProvider appAuthProvider() {
+		AppAuthenticationProvider authProvider = new AppAuthenticationProvider();
+		authProvider.setPasswordEncoder(passwordEncoder());
+		authProvider.setUserDetailsService(userDetailService);
+		return authProvider;
+	}
 }

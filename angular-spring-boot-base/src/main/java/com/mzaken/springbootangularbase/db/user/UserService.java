@@ -41,4 +41,11 @@ public class UserService {
 		}
 		return appUser;
 	}
+
+	public boolean authenticateUser(String username, String password) {
+		
+		return true;
+	}
+
+
 }

@@ -13,6 +13,6 @@ export class AuthRestService {
   constructor(private backendService: BackendService) { }
 
   login(cred: LoginCreds): Observable<RestResponse<AppUser>> {
-    return this.backendService.apiPost('auth', cred);
+    return this.backendService.apiPost('login', cred);
   }
 }

@@ -1,3 +1,5 @@
-<app-app-nav *ngIf="userLoggedIn()" style="direction: rtl"></app-app-nav>
-<app-login-page *ngIf="!userLoggedIn()"></app-login-page>
-<router-outlet></router-outlet>
+<div class=>
+    <app-app-nav *ngIf="userLoggedIn()" style="direction: rtl"></app-app-nav>
+    <app-login-page class="vh-100 d-flex justify-content-center align-items-center" *ngIf="!userLoggedIn()"></app-login-page>
+    <router-outlet></router-outlet>
+</div>
