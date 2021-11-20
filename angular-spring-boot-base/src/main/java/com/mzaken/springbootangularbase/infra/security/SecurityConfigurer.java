@@ -48,7 +48,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-	    http.csrf().disable()
+		http.cors()
+		.and()
+	    .csrf().disable()
 	    .sessionManagement()
         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
@@ -63,9 +65,9 @@ public class SecurityConfigurer extends WebSecurityConfigurerAdapter {
 	public CorsConfigurationSource corsConfigurationSource() {
 		CorsConfiguration configuration = new CorsConfiguration();
 		configuration.setAllowedOrigins(Arrays.asList("*"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS"));
-		configuration.setAllowedHeaders(Arrays.asList("*"));
-		configuration.setAllowCredentials(true);
+		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "OPTIONS"));
+		configuration.setAllowedHeaders(Arrays.asList("authorization", "content-type", "x-auth-token"));
+	    configuration.setExposedHeaders(Arrays.asList("x-auth-token"));
 		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
 		source.registerCorsConfiguration("/**", configuration);
 		return source;

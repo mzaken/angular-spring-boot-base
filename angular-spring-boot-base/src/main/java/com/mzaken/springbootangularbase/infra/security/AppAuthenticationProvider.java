@@ -20,7 +20,7 @@ public class AppAuthenticationProvider extends DaoAuthenticationProvider {
 		
 		if (userService.authenticateUser(username, password)) {
 			
-			//return new UsernamePasswordAuthenticationToken(username, password, )
+			return new UsernamePasswordAuthenticationToken(username, password);
 		}
 		
 		return null;

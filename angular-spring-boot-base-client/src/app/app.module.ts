@@ -6,15 +6,17 @@ import { AppComponent } from './app.component';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { AppNavComponent } from './components/app-nav/app-nav.component';
 import {LoginComponent} from './components/login/login.component';
-import {HttpClientModule} from '@angular/common/http';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
+import { JwtInterceptorComponent } from './interceptors/jwt-interceptor/jwt-interceptor.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginPageComponent,
     AppNavComponent,
-    LoginComponent
+    LoginComponent,
+    JwtInterceptorComponent
   ],
   imports: [
     BrowserModule,
@@ -22,7 +24,9 @@ import {FormsModule} from '@angular/forms';
     HttpClientModule,
     FormsModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass:JwtInterceptorComponent, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
