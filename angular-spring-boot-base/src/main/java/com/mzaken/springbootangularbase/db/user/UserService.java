@@ -1,15 +1,23 @@
 package com.mzaken.springbootangularbase.db.user;
 
+import java.util.Optional;
+
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.mzaken.springbootangularbase.db.UserRepository;
 import com.mzaken.springbootangularbase.infra.security.AppRoleEnum;
 import com.mzaken.springbootangularbase.infra.security.exception.NotPermittedApiException;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
 
+	private final UserRepository userRepo;
+	
 	public void checkPermission(AppRoleEnum[] allowedRoles) throws Exception {
 		AppUser appUser = getCurrentUser();
 		
@@ -43,8 +51,11 @@ public class UserService {
 	}
 
 	public boolean authenticateUser(String username, String password) {
-		
-		return true;
+		 Optional<UserEntity> user = userRepo.findByUsernameIgnoreCase(username);
+		 if (user.get() != null && user.get().getPassword().equals(password)) {
+			 return true;
+		 }
+		 return false;
 	}
 
 

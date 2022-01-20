@@ -4,3 +4,19 @@ server:
 app:
     security:
         salt: 
+
+spring:
+    datasource:
+          password: postgres
+          username: postgres
+          url: jdbc:postgresql://localhost:5432/postgres
+    jpa:
+      hibernate:
+        ddl-auto: update
+      properties:
+          dialect: rg.hibernate.dialect.PostgreSQLDialect
+          hibernate:
+              default_schema: spring_angular
+
+          
+          

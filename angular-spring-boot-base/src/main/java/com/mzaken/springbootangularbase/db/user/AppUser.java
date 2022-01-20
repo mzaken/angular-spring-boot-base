@@ -8,12 +8,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 import com.mzaken.springbootangularbase.infra.security.AppRoleEnum;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
 public class AppUser {
 	
-	public AppUser() {
-	}
 	public AppUser(UserDetails user) {
 		userName = user.getUsername();
 		password = user.getPassword();
