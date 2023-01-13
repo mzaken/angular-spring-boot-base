@@ -11,13 +11,13 @@ import com.mzaken.springbootangularbase.client.dto.UserDto;
 import com.mzaken.springbootangularbase.client.rest.auth.AuthRequest;
 
 @RestController
-@RequestMapping(value = Endpoints.LOGIN)
+@RequestMapping()
 public class AuthRestApi {
 
 	@Autowired
 	private AuthService authService;
 	
-	@PostMapping()
+	@PostMapping("/login")
 	public RestResponse<UserDto> auth(@RequestBody AuthRequest authRequest) {
 		try {
 			UserDto user = authService.authenticate(authRequest);
@@ -27,4 +27,16 @@ public class AuthRestApi {
 			return RestResponseFactory.getFail("Could not authenticate, Exception: " + e.getMessage());
 		}
 	}
+
+	@PostMapping("/register")
+	public RestResponse<UserDto> register(@RequestBody AuthRequest authRequest) {
+		try {
+			UserDto user = authService.register(authRequest);
+			return RestResponseFactory.getSuccess(user);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return RestResponseFactory.getFail("Could not authenticate, Exception: " + e.getMessage());
+		}
+	}
+
 }

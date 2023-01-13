@@ -1,10 +1,10 @@
 package com.mzaken.springbootangularbase.db;
 
+import lombok.Data;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import lombok.Data;
 
 @Entity
 @Table(name = "ROLE")
@@ -13,9 +13,11 @@ public class RoleEntity {
 
 	@Id
 	private Long id;
-	
+
+	private String name;
+
 	private String description;
 	
-	private Boolean activee;
+	private Boolean active;
 
 }

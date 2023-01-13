@@ -1,7 +1,11 @@
 package com.mzaken.springbootangularbase.db.user;
 
+import java.util.List;
 import java.util.Optional;
 
+import com.mzaken.springbootangularbase.client.dto.UserDto;
+import com.mzaken.springbootangularbase.client.dto.mapper.UserMapper;
+import com.mzaken.springbootangularbase.db.RoleEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -36,8 +40,7 @@ public class UserService {
 	public AppUser getCurrentUser() {
 		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		UserDetails user = (UserDetails)principal;
-		AppUser appUser = mapUserDetailsToAppUser(user);
-		return appUser;
+		return mapUserDetailsToAppUser(user);
 	}
 
 	private AppUser mapUserDetailsToAppUser(UserDetails user) {
@@ -58,5 +61,17 @@ public class UserService {
 		 return false;
 	}
 
+	public UserDto registerUser(String username, String password) {
+		UserEntity user = new UserEntity();
+		user.setUsername(username);
+		user.setPassword(password);
+		RoleEntity role = new RoleEntity();
+		role.setActive(true);
+		role.setDescription("User role");
+		role.setName(AppRoleEnum.USER.getAuthority());
+		role.setId(1l);
+		user.setRoles(List.of(role));
 
+		return UserMapper.INSTANCE.toDto(this.userRepo.save(user));
+	}
 }

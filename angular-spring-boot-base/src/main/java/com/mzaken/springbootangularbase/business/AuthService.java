@@ -1,9 +1,12 @@
 package com.mzaken.springbootangularbase.business;
 
+import com.mzaken.springbootangularbase.db.user.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.mzaken.springbootangularbase.client.dto.UserDto;
@@ -14,17 +17,19 @@ import com.mzaken.springbootangularbase.infra.security.service.AppUserDetailServ
 import com.mzaken.springbootangularbase.infra.security.util.JwtUtil;
 
 @Service
+@RequiredArgsConstructor
 public class AuthService {
 	
-	@Autowired
-	private AuthenticationManager authManager;
+	private final AuthenticationManager authManager;
 	
-	@Autowired
-	private AppUserDetailService userDetailsService;
+	private final AppUserDetailService userDetailsService;
 	                                                                                                                                                                                          
-	@Autowired
-	private JwtUtil jwtUtil;
-	
+	private final JwtUtil jwtUtil;
+
+	private final PasswordEncoder passwordEncoder;
+
+	private final UserService userService;
+
 	public UserDto authenticate(AuthRequest authRequest) throws BadCredentialsException {
 		authManager.authenticate(
 				new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
@@ -36,5 +41,10 @@ public class AuthService {
 		//get roles for user
 		
 		return user;
+	}
+
+	public UserDto register(AuthRequest authRequest) {
+		String password = passwordEncoder.encode(authRequest.getPassword());
+		return userService.registerUser(authRequest.getUsername(), password);
 	}
 }
